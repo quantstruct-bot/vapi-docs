@@ -1,0 +1,37 @@
+# Changelog – 2025-06-21
+
+## Major API Schema Changes
+
+### Removed Features & Properties
+- **Assistant deprecations:**
+  - `backgroundDenoisingEnabled` and `backgroundSpeechDenoisingPlan` have been removed from Assistant and related override schemas. Migrate to the new denoising plans if you haven't already.
+  - Several properties (`backgroundSpeechDenoisingPlan`, `backgroundDenoisingEnabled.deprecated`) removed from Assistant, AssistantOverrides, CreateAssistantDTO, and UpdateAssistantDTO.
+- **Credential fallback and region properties removed:**
+  - Properties like `fallbackIndex` and `region` have been removed from S3Credential, GcpCredential, AzureCredential, SupabaseCredential, CloudflareCredential, and their respective create/update DTOs.
+- **AssemblyAI Transcriber simplification:**
+  - Properties `formatTurns`, `maxTurnSilence`, `wordFinalizationMaxWaitTime`, `endOfTurnConfidenceThreshold`, `minEndOfTurnSilenceWhenConfident` were removed from AssemblyAITranscriber and FallbackAssemblyAITranscriber.
+- **Workflow property removals:**
+  - Workflow-level configuration for `voice`, `transcriber`, `monitorPlan`, `artifactPlan`, `credentialIds`, `compliancePlan`, and more have been removed. These should now be handled at the node level or via new mechanisms.
+- **Tool API Request changes:**
+  - Removal of all `apiRequest`-related discriminator mappings and schemas. If you relied on API Request tools, please migrate to the new recommended approaches.
+- **Chat and ServerMessage changes:**
+  - Many `chat`-related properties removed from server message and cost breakdown schemas.
+
+### Added Features & Properties
+- **Workflow Enhancements:**
+  - New `model` property at the workflow level allows you to specify the LLM (OpenAI or Anthropic) for the workflow as a whole.
+  - New edge conditions: `LogicEdgeCondition` (with a `liquid` string for advanced branching) and `FailedEdgeCondition` for more robust workflow logic.
+
+## Migration Guidance for Vapi Developers
+- **Update your Assistant and Workflow definitions:**
+  - Remove deprecated and deleted properties from your assistant and workflow objects.
+  - Use the new `model` property for workflows to control LLM selection at the workflow level.
+  - For advanced branching, leverage the new logic and failed edge conditions in your workflow edges.
+- **Credential Management:**
+  - Revisit how you specify credentials for workflows and tools, as dynamic credential support has shifted.
+- **API Request Tool:**
+  - If you used the API Request tool, review your integrations and migrate to the latest supported approach.
+
+---
+
+These changes are part of a major schema cleanup and workflow enhancement designed to make Vapi's configuration more robust and future-proof. Please review your integrations and update accordingly. For questions, refer to the [Vapi API documentation](https://docs.vapi.ai/) or reach out to the Vapi team.
