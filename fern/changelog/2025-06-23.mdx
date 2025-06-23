@@ -1,0 +1,30 @@
+---
+title: Changelog for 2025-06-23
+---
+
+# Changelog — 2025-06-23
+
+## Breaking Changes
+
+- **Schema Removals**:
+  - Several schema properties and paths have been removed, including `assistantOverrides` from `Chat` and `CreateChatDTO`, `metadata` from `McpTool` and related DTOs, and `language` from `LMNTVoice` and `FallbackLMNTVoice`.
+  - Deprecated campaign call counters (`callsCounterQueued`, `callsCounterScheduled`, etc.) have been removed from `Campaign`.
+  - `model` properties removed from `WorkflowCustomModel` and `WorkflowGoogleModel` node schemas.
+  - Tool references for MCP and API Request tools have been updated; ensure your tool definitions reflect these removals.
+
+## Upgrade Guidance
+
+- **AssistantOverrides**: Any logic or integrations relying on `assistantOverrides` (in `Chat`, `CreateChatDTO`, or `OpenAIResponsesRequest`) must be updated. Use the new override mechanisms as documented in the latest API reference.
+- **Voice Models**: If your assistant or workflow references `language` in `LMNTVoice` or `FallbackLMNTVoice`, update to use the latest voice configuration schema.
+- **Campaigns**: Remove references to deprecated call counter properties in your campaign management workflows.
+- **MCP Tools**: Remove or migrate any use of the `metadata` property in MCP tool definitions and DTOs.
+
+## General Notes for Vapi Developers
+
+- These changes are part of ongoing efforts to simplify and streamline the Vapi API, making it easier to maintain and extend.
+- Always review the [OpenAPI reference](../reference) for the most current schema and property definitions.
+- If you are using custom code generation or type-safe clients, regenerate your types from the latest OpenAPI spec to avoid runtime errors.
+
+---
+
+For any issues or questions, please consult the documentation or reach out via the support channels.
